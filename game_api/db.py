@@ -9,3 +9,9 @@ class Person(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.Text)
 
+  def json(self):
+    return {
+      'id': self.id,
+      'name': self.name,
+    }
+

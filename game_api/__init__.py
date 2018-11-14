@@ -14,6 +14,9 @@ def create_app():
     return render_template('index.html')
 
   from game_api.db import db
+  from game_api.blueprints.users import user
+
+  app.register_blueprint(user)
 
   db.init_app(app)
   ctx = app.app_context()
