@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 def create_app():
   app = Flask(__name__, instance_relative_config=True)
@@ -11,7 +11,7 @@ def create_app():
 
   @app.route('/')
   def hello():
-    return '<h1 style="font-family: sans-serif;">Hey it\'s working!</h1>'
+    return render_template('index.html')
 
   from game_api.db import db
 
