@@ -113,24 +113,23 @@ Vue.component('b-col', {
     classObj: function() {
       return Object.keys(this.$props).reduce((a, b) => {
         const capsRe = /[A-Z]/g;
-        // if (this.$props[b]) {
-          const capsIs = b.search(capsRe)
-          let newB
-          console.log(capsIs);
-
-          if (b.includes('alignSelf')) {
-            newB = b;
+        if (this.$props[b]) {          
+          const capsIs = b.split('').map((c, i) => capsRe.test(c) ? i : '').filter(c => c);
+          let newB = capsIs.reduce((accum, capI) => {            
+            accum = accum.replace(b[capI], `-${b[capI].toLowerCase()}`);            
+            return accum;
+          }, b);
+          if (newB.includes('align-self')) {
+            newB = newB;
           } else if (b.includes('justify')) {
-            newB = 'justify-content' + '-' + b.slice(b.indexOf('y') + 1).toLowerCase();
-          } else if (b === 'dFlex') {
-            
-            
-            newB = 'd-flex';
+            newB = 'justify-content' + newB.slice(newB.indexOf('y') + 1).toLowerCase();
+          } else if (newB === 'd-flex') {
+            newB = newB;
           } else {
             newB = 'align-items'  + '-' +  b.slice(b.indexOf('n') + 1);
           }
           a[newB] = newB;          
-        // }
+        }
         return a;
       }, {})
     }

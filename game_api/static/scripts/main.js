@@ -4,7 +4,7 @@ const MenuBar = {
   `
     <div>
       <row>
-        <b-col d-flex justify-xs-end> <h1>Hello</h1></b-col>
+        <b-col d-flex justify-md-center> <h1>Hello</h1></b-col>
       </row>
     </div>
   `,
