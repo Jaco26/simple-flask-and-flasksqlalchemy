@@ -3,8 +3,8 @@ const MenuBar = {
   template: //html
   `
     <div>
-      <row align-center height="50">
-        <flex d-flex justify-center> <h1>Hello</h1></flex>
+      <row>
+        <b-col d-flex justify-xs-end> <h1>Hello</h1></b-col>
       </row>
     </div>
   `,
@@ -16,14 +16,14 @@ const app = new Vue({
     <container fill-height> 
       <MenuBar />
       <row>
-        <flex f="3"></flex>
-        <flex height="50" style="background-color: blue;">
+        <b-col f="3"></b-col>
+        <b-col height="50" style="background-color: blue;">
           <ul style="list-style: none;">
             <li v-for="(item, i) in user" :key="i" @dblclick="deletePlayer(item.id)">{{item.name}}</li>
           </ul>
           <input type="text" v-model="newPlayer" />
           <button @click="addPlayer">Add</button>
-        </flex>
+        </b-col>
       </row>
     </container>
   `,

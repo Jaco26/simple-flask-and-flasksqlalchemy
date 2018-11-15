@@ -3,9 +3,8 @@ html, body {
   height: 100%;
 }
 
-.container {
+/* .container {
   display: block;
-  /* background-color: rgb(29, 151, 66); */
 }
 
 .row {
@@ -16,7 +15,7 @@ html, body {
 
 .flex {
   background-color: rgb(120, 202, 191);
-}
+} */
 
 .fill-height {
   height: 100%;
