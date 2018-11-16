@@ -1,30 +1,59 @@
 
+const DropDown = {
+  template: //html
+  `<div class="dropdown" @mouseleave="show = false">
+      <button @mouseenter="show = true" class="btn btn-light dropdown-toggle">
+        Options
+      </button>
+      <div v-if="show" class="dropdown-menu">
+        <div 
+          v-for="(item, i) in menuItems"
+          :key="i"  
+          @click="item.action"
+          class="dropdown-item pointer"
+        >
+          {{item.text}}
+        </div>
+      </div>
+    </div>
+  `,
+  props: {
+    menuItems: Array,
+  },
+  data: function() {
+    return {
+      show: false,
+    }
+  },
+}
+
 const MenuBar = {
   template: //html
   `
     <row>
       <nav class="col navbar navbar-light bg-light">
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a 
-              class="nav-link dropdown-toggle" 
-              @click="showMenu = !showMenu"
-            >
-              Hi
-            </a>
-            <div v-if="showMenu" class="col" >
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
-        </ul>
+        <DropDown :menuItems="menuItems" />
       </nav>
     </row>
   `,
+  components: {
+    DropDown,
+  },
   data: function() {
     return {
       showMenu: false,
+      menuItems: [
+        {
+          text: 'Add Player',
+          action: this.showAddPlayer,
+        }
+      ]
+    }
+  },
+  methods: {
+    showAddPlayer() {
+      console.log('show add player form');
+      
     }
   }
 };
