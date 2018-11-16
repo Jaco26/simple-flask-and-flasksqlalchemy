@@ -124,9 +124,9 @@ Vue.component('b-col', {
           } else if (b.includes('justify')) {
             newB = 'justify-content' + newB.slice(newB.indexOf('y') + 1).toLowerCase();
           } else if (newB === 'd-flex') {
-            newB = newB;
+            newB = newB
           } else {
-            newB = 'align-items'  + '-' +  b.slice(b.indexOf('n') + 1);
+            newB = 'align-items' + newB.slice(newB.indexOf('n') + 1).toLowerCase();
           }
           a[newB] = newB;          
         }
