@@ -14,12 +14,13 @@ def create_app():
   def hello():
     return render_template('index.html')
 
-  from .db import db, init_db_command
-  from .blueprints.users import user
+  from .db import db, init_db_command, init_db_data
+  from .blueprints.player import player
 
   db.init_app(app)
-  app.register_blueprint(user)
+  app.register_blueprint(player)
   app.cli.add_command(init_db_command)
+  app.cli.add_command(init_db_data)
   Migrate(app, db)
 
   return app

@@ -8,18 +8,15 @@ db = db = SQLAlchemy()
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
-  print(current_app)
+  import game_api.models.player_cards
   db.create_all()
+  
 
-class Person(db.Model):
-  __tablename__ = 'person'
-
-  id = db.Column(db.Integer, primary_key=True)
-  name = db.Column(db.Text)
-
-  def json(self):
-    return {
-      'id': self.id,
-      'name': self.name,
-    }
+@click.command('init-data')
+@with_appcontext
+def init_db_data():
+  from game_api.models.initial_data import initial_roles
+  for role in initial_roles:
+    db.session.add(role)
+    db.session.commit()
 
