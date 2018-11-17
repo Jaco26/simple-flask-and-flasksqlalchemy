@@ -1,29 +1,37 @@
 from flask import Blueprint, jsonify, request
-from game_api.models.player_cards import Player
+from game_api.models import Player
 
+def not_found(item):
+  return { 'message': '{} was not found'.format(item)}
 
 player = Blueprint('player', __name__, url_prefix='/player')
 
 
-@player.route('<int:_id>', methods=["GET", "POST", "DELETE", "PUT"])
-def handle_user(_id):
+@player.route('<int:_id>', methods=["GET", "DELETE", "PUT"])
+def player_by_id(_id):
   data = request.get_json()
-  print('DATA', _id)
-  # if request.method == "GET":
-    
-#   if request.method == "GET":
-#     # users = [p.json() for p in Person.query.all()]
-#     return jsonify({ 'users': users }), 200
-#   elif request.method == "POST":
-#     data = request.get_json()
-#     # user = Person(name=data['name'])
-#     db.session.add(user)
-#     db.session.commit()
-#     return jsonify({ 'message': 'added person' }), 201
-    
 
-# @user.route('/<int:_id>', methods=["DELETE"])
-# def handle_delete(_id):
-#   # Person.query.filter(Person.id == _id).delete()
-#   db.session.commit()
-#   return 'Success', 200
+  if request.method == "GET":
+    return Player.find_by_id(_id)
+
+
+@player.route('', methods=["GET", "POST"])
+def players():
+  data = request.get_json()
+  if request.method == "POST":
+    if data and data['name']:
+      player = Player.find_by_name(data['name'])
+      if player is None:
+        new_player = Player(name=data['name'])
+        try:
+          new_player.save()
+        except:
+          return 'There was a problem saving the new player', 500
+        return 'Success', 201 
+      else:
+        return 'Player {} already exits'.format(player.name), 400
+    else:
+      return 'No "name" in request body', 400
+
+  elif request.method == "GET":
+    return jsonify({ 'players': [p.json() for p in Player.query.all()] })

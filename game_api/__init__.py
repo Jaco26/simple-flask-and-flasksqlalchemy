@@ -19,8 +19,10 @@ def create_app():
 
   db.init_app(app)
   app.register_blueprint(player)
+
   app.cli.add_command(init_db_command)
   app.cli.add_command(init_db_data)
+  
   Migrate(app, db)
 
   return app
