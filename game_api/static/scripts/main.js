@@ -46,7 +46,7 @@ const MenuBar = {
         {
           text: 'Add Player',
           action: this.showAddPlayer,
-        }
+        },
       ]
     }
   },

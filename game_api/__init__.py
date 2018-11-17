@@ -13,14 +13,11 @@ def create_app():
   def hello():
     return render_template('index.html')
 
-  from game_api.db import db
-  from game_api.blueprints.users import user
-
-  app.register_blueprint(user)
+  from .db import db, init_db_command
+  from .blueprints.users import user
 
   db.init_app(app)
-  ctx = app.app_context()
-  ctx.push()
-  db.create_all()
+  app.register_blueprint(user)
+  app.cli.add_command(init_db_command)
 
   return app
