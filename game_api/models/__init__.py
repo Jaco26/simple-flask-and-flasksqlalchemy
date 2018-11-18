@@ -1,9 +1,41 @@
 from game_api.db import db
+from datetime import datetime
 
 class Game(db.Model):
   __tablename__ = 'game'
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.Text)
+  status = db.Column(db.String, default="created")
+  date_created = db.Column(db.DateTime, default=datetime.utcnow())
+  date_started = db.Column(db.DateTime)
+  date_finished = db.Column(db.DateTime)
+
+  def json(self):
+    return {
+      'id': self.id,
+      'name': self.name,
+      'status': self.status,
+      'date_started': self.date_started,
+      'date_finished': self.date_finished,
+    }
+
+  @classmethod
+  def find_by_id(cls, _id):
+    return cls.query.filter_by(id=_id).first()
+
+  @classmethod
+  def find_by_name(cls, name):
+    return cls.query.filter_by(name=name).first()
+
+  def save(self):
+    db.session.add(self)
+    db.session.commit()
+
+  def delete(self):
+    db.session.delete(self)
+    db.session.commit()
+
+
 
 
 

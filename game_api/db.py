@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = db = SQLAlchemy()
 
+
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
