@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from flask_restful import Api
-from flask_migrate import Migrate
 
 def create_app():
   app = Flask(__name__, instance_relative_config=True)
@@ -26,12 +25,9 @@ def create_app():
   api.add_resource(RolesList, '/roles')
   api.add_resource(GamesList, '/games')
 
-
   db.init_app(app)
 
   app.cli.add_command(init_db_command)
   app.cli.add_command(init_db_data)
-  
-  Migrate(app, db)
 
   return app
