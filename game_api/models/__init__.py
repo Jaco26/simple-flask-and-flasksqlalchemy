@@ -15,8 +15,9 @@ class Game(db.Model):
       'id': self.id,
       'name': self.name,
       'status': self.status,
-      'date_started': self.date_started,
-      'date_finished': self.date_finished,
+      'date_created': datetime.isoformat(self.date_created)if self.date_created else None,
+      'date_started': datetime.isoformat(self.date_started) if self.date_started else None,
+      'date_finished': datetime.isoformat(self.date_finished) if self.date_started else None,
     }
 
   @classmethod

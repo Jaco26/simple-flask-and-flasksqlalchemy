@@ -13,7 +13,9 @@ class GamesList(Resource):
 
   def get(self):
     try:
-      return { 'games': [g.json() for g in Game.query.all()] }, 200
+      games = [g.json() for g in Game.query.all()]
+      print('GAAAAAAAAAAMMMMMMMMMEEEEEEEESSSSSSS', games)
+      return { 'games': games }, 200
     except:
       return msg('The was an error getting games'), 500
 
