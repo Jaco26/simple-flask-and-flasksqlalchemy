@@ -6,6 +6,7 @@ class Game(db.Model):
   name = db.Column(db.Text)
 
 
+
 class Player(db.Model):
   __tablename__ = 'player'
   id = db.Column(db.Integer, primary_key=True)
@@ -35,11 +36,20 @@ class Player(db.Model):
 
 
 
+
 class Role(db.Model):
   __tablename__ = 'role'
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.Text, unique=True)
   description = db.Column(db.Text)
+  
+  def json(self):
+    return {
+      'id': self.id,
+      'name': self.name,
+      'description': self.description
+    }
+
 
 
 game_player = db.Table('game_player',

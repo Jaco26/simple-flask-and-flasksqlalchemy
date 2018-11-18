@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_restful import Api
 from flask_migrate import Migrate
 
 def create_app():
@@ -9,16 +10,22 @@ def create_app():
   )
 
   app.config.from_pyfile('config.py')
+  api = Api(app)
 
   @app.route('/')
   def hello():
     return render_template('index.html')
 
   from .db import db, init_db_command, init_db_data
-  from .blueprints.player import player
+  from .resources.player import PlayerList, PlayerById
+  from .resources.roles import RolesList
+
+  api.add_resource(PlayerList, '/players')
+  api.add_resource(PlayerById, '/player/<int:_id>')
+  api.add_resource(RolesList, '/roles')
+
 
   db.init_app(app)
-  app.register_blueprint(player)
 
   app.cli.add_command(init_db_command)
   app.cli.add_command(init_db_data)
