@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 from flask_restful import Api
 
 def create_app():
@@ -13,17 +13,21 @@ def create_app():
 
   @app.route('/')
   def hello():
-    return render_template('index.html')
+    return """
+    <h1 style="font-family: sans-serif;">
+      Welcome to the API!
+    </h1>
+    """
 
   from .db import db, init_db_command, init_db_data
   from .resources.player import PlayerList, PlayerById
   from .resources.roles import RolesList
   from .resources.games import GamesList
 
-  api.add_resource(PlayerList, '/players')
-  api.add_resource(PlayerById, '/player/<int:_id>')
-  api.add_resource(RolesList, '/roles')
-  api.add_resource(GamesList, '/games')
+  api.add_resource(PlayerList, '/api/players')
+  api.add_resource(PlayerById, '/apiplayer/<int:_id>')
+  api.add_resource(RolesList, '/api/roles')
+  api.add_resource(GamesList, '/api/games')
 
   db.init_app(app)
 
