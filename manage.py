@@ -5,8 +5,6 @@ from flask_migrate import Migrate, MigrateCommand
 from game_api import create_app
 from game_api.db import db
 
-import game_api.models
-
 app = create_app()
 
 migrate = Migrate(app, db)

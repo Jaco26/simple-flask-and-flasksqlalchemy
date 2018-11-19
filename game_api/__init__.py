@@ -25,7 +25,7 @@ def create_app():
   from .resources.games import GamesList
 
   api.add_resource(PlayerList, '/api/players')
-  api.add_resource(PlayerById, '/apiplayer/<int:_id>')
+  api.add_resource(PlayerById, '/api/player/<int:_id>')
   api.add_resource(RolesList, '/api/roles')
   api.add_resource(GamesList, '/api/games')
 

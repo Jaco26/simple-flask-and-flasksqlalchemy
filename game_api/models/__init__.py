@@ -6,7 +6,7 @@ class Game(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.Text)
   status = db.Column(db.String, default="created")
-  date_created = db.Column(db.DateTime, default=datetime.utcnow())
+  date_created = db.Column(db.DateTime, default=datetime.utcnow)
   date_started = db.Column(db.DateTime)
   date_finished = db.Column(db.DateTime)
 
