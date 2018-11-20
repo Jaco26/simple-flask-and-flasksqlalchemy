@@ -29,3 +29,15 @@ class GamesList(Resource):
     except:
       return msg('There was an error creating your game')
 
+
+class GameById(Resource):
+  def delete(self, _id):
+    try:
+      game = Game.find_by_id(_id)
+      if game:
+        game.delete()
+        return msg('Game {} deleted'.format(_id)), 200
+      else:
+        return msg('Game {} was already gone'.format(_id)), 400
+    except:
+      return msg('Error deleting game'), 500

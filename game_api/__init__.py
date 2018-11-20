@@ -22,12 +22,13 @@ def create_app():
   from .db import db, init_db_command, init_db_data
   from .resources.player import PlayerList, PlayerById
   from .resources.roles import RolesList
-  from .resources.games import GamesList
+  from .resources.games import GamesList, GameById
 
   api.add_resource(PlayerList, '/api/players')
   api.add_resource(PlayerById, '/api/player/<int:_id>')
   api.add_resource(RolesList, '/api/roles')
   api.add_resource(GamesList, '/api/games')
+  api.add_resource(GameById, '/api/game/<int:_id>')
 
   db.init_app(app)
 
