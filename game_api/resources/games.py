@@ -34,6 +34,13 @@ class GameById(Resource):
   parser = reqparse.RequestParser()
   parser.add_argument('player_id', type=int)
 
+  def get(self, _id):
+    try:
+      game = Game.find_by_id(_id)
+      return { 'game': game.json() }
+    except :
+      return msg('There was an error fetching the game'), 500
+
   def delete(self, _id):
     try:
       game = Game.find_by_id(_id)
@@ -48,9 +55,13 @@ class GameById(Resource):
   def patch(self, _id):
     try:
       data = GameById.parser.parse_args()
+      player = Player.find_by_id(data['player_id'])
       game = Game.find_by_id(_id)
-      game.players.append(data['player_id'])
+      if player.id in [p.json()['id'] for p in game.players]:
+        return msg('Player {} is already in game {}'.format(player_id, _id)), 200
+      game.players.append(player)
       game.save()
       return msg('Player joined game {}'.format(_id)), 200
     except:
-      return msg('Error with player joining game'), 200
+      return msg('Error with player joining game'), 500
+
