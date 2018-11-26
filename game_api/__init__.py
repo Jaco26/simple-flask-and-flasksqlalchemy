@@ -23,12 +23,17 @@ def create_app():
   from .resources.player import PlayerList, PlayerById
   from .resources.roles import RolesList
   from .resources.games import GamesList, GameById
+  from .resources.join_game import JoinGame
+  from .resources.choose_role import ChooseRole
+  # from .resources.player_game_role import GamePlayerRoleResource
 
   api.add_resource(PlayerList, '/api/players')
   api.add_resource(PlayerById, '/api/player/<int:_id>')
   api.add_resource(RolesList, '/api/roles')
   api.add_resource(GamesList, '/api/games')
   api.add_resource(GameById, '/api/game/<int:_id>')
+  api.add_resource(JoinGame, '/api/game/<int:_id>/join')
+  api.add_resource(ChooseRole, '/api/game/<int:_id>/role')
 
   db.init_app(app)
 

@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from game_api.models import Game, Player
+from game_api.models import Game, Player, Role
 
 def msg(message):
   return { 'message': message }
@@ -33,6 +33,7 @@ class GamesList(Resource):
 class GameById(Resource):
   parser = reqparse.RequestParser()
   parser.add_argument('player_id', type=int)
+  parser.add_argument('role_id', type=int)
 
   def get(self, _id):
     try:
@@ -52,16 +53,10 @@ class GameById(Resource):
     except:
       return msg('Error deleting game'), 500
   
-  def patch(self, _id):
-    try:
-      data = GameById.parser.parse_args()
-      player = Player.find_by_id(data['player_id'])
-      game = Game.find_by_id(_id)
-      if player.id in [p.json()['id'] for p in game.players]:
-        return msg('Player {} is already in game {}'.format(player_id, _id)), 200
-      game.players.append(player)
-      game.save()
-      return msg('Player joined game {}'.format(_id)), 200
-    except:
-      return msg('Error with player joining game'), 500
 
+
+
+# player_role = db.Table('player_role',  
+#   db.Column('player_id', db.Integer, db.ForeignKey('players.id'), nullable=True),
+#   db.Column('role_id', db.Integer, db.ForeignKey('roles.id'), nullable=True)
+# )
