@@ -1,4 +1,5 @@
 from game_api.db import db
+from sqlalchemy import and_
 from datetime import datetime
 
 
@@ -19,6 +20,7 @@ class Game(db.Model):
       'date_created': datetime.isoformat(self.date_created) if self.date_created else None,
       'date_started': datetime.isoformat(self.date_started) if self.date_started else None,
       'date_finished': datetime.isoformat(self.date_finished) if self.date_started else None,
+      'game_players': [p.json() for p in self.game_players]
     }
 
   @classmethod
@@ -53,18 +55,29 @@ class PlayerInstance(db.Model):
   role_id = db.Column(db.Integer, db.ForeignKey('role_info.id'))
   player = db.relationship('Player', uselist=False, backref='player_instances')
   game = db.relationship('Game', uselist=False, backref="game_players")
-  role = db.relationship('Role', uselist=False)
+  role = db.relationship('Role', uselist=False, backref=db.backref('role_havers', lazy=True))
 
 
   def json(self):
     return {
       'id': self.id,
-      'name': self.name,
+      'player': self.player.json(),
+      'role': self.role.json() if self.role_id else None,
     }
 
   @classmethod
   def find_by_id(cls, _id):
     return cls.query.filter_by(id=_id).first()
+
+  @classmethod
+  def player_in_game(cls, player_id, game_id):
+    print('player and game id', player_id, game_id)
+    print(and_)
+    return cls.query.filter(and_(cls.player_id == player_id, cls.game_id == game_id)).first()
+
+  def save(self):
+    db.session.add(self)
+    db.session.commit()
 
 
 
