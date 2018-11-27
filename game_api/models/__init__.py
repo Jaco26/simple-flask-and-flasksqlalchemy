@@ -1,26 +1,15 @@
 from game_api.db import db
 from datetime import datetime
 
-player_role = db.Table('player_instance',
-  db.Column('player_id', db.Integer, db.ForeignKey('players.id'), nullable=True),
-  db.Column('role_id', db.Integer, db.ForeignKey('roles.id'), nullable=True),
-)
-
-game_player = db.Table('game_player',
-  db.Column('game_id', db.Integer, db.ForeignKey('games.id'), nullable=True),
-  db.Column('player_id', db.Integer, db.ForeignKey('players.id'), nullable=True),
-)
-
 
 class Game(db.Model):
-  __tablename__ = 'games'
+  __tablename__ = 'game_info'
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.Text)
   status = db.Column(db.String, default="created")
   date_created = db.Column(db.DateTime, default=datetime.utcnow)
   date_started = db.Column(db.DateTime)
   date_finished = db.Column(db.DateTime)
-  players = db.relationship('Player', secondary=game_player_role lazy='subquery', backref=db.backref('player_games', lazy='dynamic'))
 
   def json(self):
     return {
@@ -52,23 +41,37 @@ class Game(db.Model):
 
 
 class PlayerInstance(db.Model):
-   __tablename__ = 'player_instance'
+  # Each row in player_instance will have:
+  # a relationship to a 'player' as defined in player_info,
+  # a relationship to a 'game' as defined in game_info,
+  # and a relationship to a 'role' as defined in role_info 
+  __tablename__ = 'player_instance'
+
   id = db.Column(db.Integer, primary_key=True)
-  player = db.relationship('Player', uselist=False, backref=db.backref("player_instances", uselist=True))
-  role = db.relationship('Role', uselist=False, backref=db.backref("role_players", uselist=True))
-  game = db.relationship('Game', uselist=False,  backref=db.backref("game_players", uselist=True))
+  player_id = db.Column(db.Integer, db.ForeignKey('player_info.id'))
+  game_id = db.Column(db.Integer, db.ForeignKey('game_info.id'))
+  role_id = db.Column(db.Integer, db.ForeignKey('role_info.id'))
+  player = db.relationship('Player', uselist=False, backref='player_instances')
+  game = db.relationship('Game', uselist=False, backref="game_players")
+  role = db.relationship('Role', uselist=False)
 
-  
 
+  def json(self):
+    return {
+      'id': self.id,
+      'name': self.name,
+    }
+
+  @classmethod
+  def find_by_id(cls, _id):
+    return cls.query.filter_by(id=_id).first()
 
 
 
 class Player(db.Model):
-  __tablename__ = 'players'
+  __tablename__ = 'player_info'
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.Text, unique=True)
-  roles = db.relationship('Role', secondary=player_role, lazy='subquery')
-  games = db.relationship('Game', secondary=game_player, lazy='subquery')
 
   def json(self):
     return {
@@ -96,7 +99,7 @@ class Player(db.Model):
 
 
 class Role(db.Model):
-  __tablename__ = 'roles'
+  __tablename__ = 'role_info'
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.Text, unique=True)
   description = db.Column(db.Text)
