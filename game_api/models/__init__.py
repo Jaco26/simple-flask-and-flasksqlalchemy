@@ -55,14 +55,14 @@ class PlayerInstance(db.Model):
   role_id = db.Column(db.Integer, db.ForeignKey('role_info.id'))
   player = db.relationship('Player', uselist=False, backref='player_instances')
   game = db.relationship('Game', uselist=False, backref="game_players")
-  role = db.relationship('Role', uselist=False, backref=db.backref('role_havers', lazy=True))
+  role = db.relationship('Role', uselist=False)
 
 
   def json(self):
     return {
       'id': self.id,
       'player': self.player.json(),
-      'role': self.role.json() if self.role_id else None,
+      'role': self.role.json() if self.role.first() else None,
     }
 
   @classmethod
@@ -77,6 +77,10 @@ class PlayerInstance(db.Model):
 
   def save(self):
     db.session.add(self)
+    db.session.commit()
+
+  def delete(self):
+    db.session.delete(self)
     db.session.commit()
 
 
