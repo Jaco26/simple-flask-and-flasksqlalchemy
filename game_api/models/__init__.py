@@ -58,11 +58,12 @@ class PlayerInstance(db.Model):
   role = db.relationship('Role', uselist=False)
 
 
-  def json(self):
+  def json(self, *args):
     return {
       'id': self.id,
-      'player': self.player.json(),
-      'role': self.role.json() if self.role.first() else None,
+      'player': self.player.json() if 'player' in args else None,
+      'game': self.game.json() if 'game' in args else None,
+      'role': self.role.json() if self.role else None,
     }
 
   @classmethod
@@ -94,6 +95,7 @@ class Player(db.Model):
     return {
       'id': self.id,
       'name': self.name,
+      'player_instances': [p.json('game') for p in self.player_instances]
     }
 
   @classmethod
