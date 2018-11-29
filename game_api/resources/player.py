@@ -34,7 +34,7 @@ class PlayerById(Resource):
   def get(self, _id):
     player = Player.find_by_id(_id)
     if player:
-      return player.json(), 200
+      return player.json('player_instances'), 200
     return msg('Player {} not found'.format(_id)), 404
   
   def put(self, _id):

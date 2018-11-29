@@ -13,7 +13,7 @@ class GamesList(Resource):
 
   def get(self):
     try:
-      games = [g.json() for g in Game.query.all()]
+      games = [g.json('game_players') for g in Game.query.all()]
       return { 'games': games }, 200
     except:
       return msg('The was an error getting games'), 500
@@ -38,7 +38,7 @@ class GameById(Resource):
   def get(self, _id):
     try:
       game = Game.find_by_id(_id)
-      return { 'game': game.json() }
+      return { 'game': game.json('game_players') }
     except :
       return msg('There was an error fetching the game'), 500
 

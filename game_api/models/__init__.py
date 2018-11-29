@@ -12,7 +12,7 @@ class Game(db.Model):
   date_started = db.Column(db.DateTime)
   date_finished = db.Column(db.DateTime)
 
-  def json(self):
+  def json(self, *args):
     return {
       'id': self.id,
       'name': self.name,
@@ -20,7 +20,7 @@ class Game(db.Model):
       'date_created': datetime.isoformat(self.date_created) if self.date_created else None,
       'date_started': datetime.isoformat(self.date_started) if self.date_started else None,
       'date_finished': datetime.isoformat(self.date_finished) if self.date_started else None,
-      'game_players': [p.json() for p in self.game_players]
+      'game_players': [p.json('player', 'role') for p in self.game_players] if 'game_players' in args else None
     }
 
   @classmethod
@@ -63,7 +63,7 @@ class PlayerInstance(db.Model):
       'id': self.id,
       'player': self.player.json() if 'player' in args else None,
       'game': self.game.json() if 'game' in args else None,
-      'role': self.role.json() if self.role else None,
+      'role': self.role.json() if self.role and 'role' in args else None,
     }
 
   @classmethod
@@ -91,11 +91,11 @@ class Player(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.Text, unique=True)
 
-  def json(self):
+  def json(self, *args):
     return {
       'id': self.id,
       'name': self.name,
-      'player_instances': [p.json('game') for p in self.player_instances]
+      'player_instances': [p.json('game', 'role') for p in self.player_instances] if 'player_instances' in args else None
     }
 
   @classmethod
