@@ -11,6 +11,7 @@ class Game(db.Model):
   date_created = db.Column(db.DateTime, default=datetime.utcnow)
   date_started = db.Column(db.DateTime)
   date_finished = db.Column(db.DateTime)
+  game_players = db.relationship('PlayerInstance', cascade="delete", backref='game')
 
   def json(self, *args):
     return {
@@ -36,6 +37,8 @@ class Game(db.Model):
     db.session.commit()
 
   def delete(self):
+    # for p in self.game_players:
+    #   self.game_players.remove(p)
     db.session.delete(self)
     db.session.commit()
 
@@ -53,10 +56,6 @@ class PlayerInstance(db.Model):
   player_id = db.Column(db.Integer, db.ForeignKey('player_info.id'))
   game_id = db.Column(db.Integer, db.ForeignKey('game_info.id'))
   role_id = db.Column(db.Integer, db.ForeignKey('role_info.id'))
-  player = db.relationship('Player', uselist=False, backref='player_instances')
-  game = db.relationship('Game', uselist=False, backref="game_players")
-  role = db.relationship('Role', uselist=False)
-
 
   def json(self, *args):
     return {
@@ -90,6 +89,7 @@ class Player(db.Model):
   __tablename__ = 'player_info'
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.Text, unique=True)
+  player_instances = db.relationship('PlayerInstance', cascade='delete', backref='player')
 
   def json(self, *args):
     return {
@@ -122,6 +122,7 @@ class Role(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.Text, unique=True)
   description = db.Column(db.Text)
+  role_players = db.relationship('PlayerInstance', cascade='delete', backref='role', lazy=True)
 
   def json(self):
     return {

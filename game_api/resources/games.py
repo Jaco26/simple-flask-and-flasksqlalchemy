@@ -53,10 +53,3 @@ class GameById(Resource):
     except:
       return msg('Error deleting game'), 500
   
-
-
-
-# player_role = db.Table('player_role',  
-#   db.Column('player_id', db.Integer, db.ForeignKey('players.id'), nullable=True),
-#   db.Column('role_id', db.Integer, db.ForeignKey('roles.id'), nullable=True)
-# )
