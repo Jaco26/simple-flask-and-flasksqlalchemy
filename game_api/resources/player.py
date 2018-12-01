@@ -10,7 +10,7 @@ class PlayerList(Resource):
 
   def get(self):
     try:
-      return [player.json() for player in Player.query.all()], 200
+      return [player.json('player_instances') for player in Player.query.all()], 200
     except:
       return msg('The was an error getting all players'), 500
 
