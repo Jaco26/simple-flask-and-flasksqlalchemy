@@ -6,7 +6,8 @@ def msg(message):
 
 class JoinGame(Resource):
   parser = reqparse.RequestParser()
-  parser.add_argument('player_id')
+  parser.add_argument('player_id', type=int)
+  parser.add_argument('instance_id', type=int)
 
   def post(self, _id):
     try:
@@ -25,4 +26,12 @@ class JoinGame(Resource):
     except:
       return msg('Player game join error'), 500
 
-  
+  def put(self, _id):
+    try:
+      data = JoinGame.parser.parse_args()
+      player_instance = PlayerInstance.find_by_id(data['instance_id'])
+      print('player_instance' * 4, player_instance, data['instance_id'])
+      player_instance.delete()
+      return msg('Player {} left game {}'.format(data['player_id'], _id)), 200
+    except:
+      return msg('Error leaving game'), 500
