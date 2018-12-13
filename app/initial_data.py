@@ -1,4 +1,4 @@
-from game_api.models import Role
+from app.models import Role
 
 initial_roles = [
   Role(

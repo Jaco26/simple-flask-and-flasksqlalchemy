@@ -1,4 +1,4 @@
-from game_api.db import db
+from app.db import db
 from sqlalchemy import and_
 from datetime import datetime
 

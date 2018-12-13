@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from game_api.models import Role
+from app.models import Role
 
 def msg(message):
   return { 'message': message }

@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from game_api.models import Game, Player, Role
+from app.models import Game, Player, Role
 
 def msg(message):
   return { 'message': message }
