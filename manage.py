@@ -2,8 +2,8 @@ import os
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from game_api import create_app
-from game_api.db import db
+from app import create_app
+from app.db import db
 
 app = create_app()
 
