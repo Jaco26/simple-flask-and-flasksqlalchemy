@@ -30,3 +30,7 @@ class Cities(db.Model):
       'name': self.name,
       'connections': self.connections
     }
+
+  def save_to_db(self):
+    db.session.add(self)
+    db.session.commit()

@@ -1,5 +1,9 @@
+from pprint import pprint
 from app.db import db
 from app import create_app
+from app.calculations.find_city_connections import connect_cities
+from app.models.cities import Cities
+
 
 class OldCities(db.Model):
   __bind_key__ = 'old_cities'
@@ -37,10 +41,13 @@ class OldCities(db.Model):
 def main():
   app = create_app()
   with app.app_context():
-    # print(app.config['SQLALCHEMY_BINDS'])
-    cities = [c.simple_json() for c in OldCities.query.all()]
-    print(cities[0])
-
+    cities = [c.json() for c in OldCities.query.all()]
+    for city in cities:
+      c = connect_cities(city, cities)
+      pprint(c)
+      # new_city = Cities(**c)
+      # new_city.save_to_db()
+      # new_city.save_to_db()
 
 if __name__ == '__main__':
   main()
