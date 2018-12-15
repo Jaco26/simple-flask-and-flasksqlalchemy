@@ -32,9 +32,7 @@ def connect_cities(locus_city, other_cities):
     for _id in ids:
       city = next((c for c in cities if c['id'] == _id), None)
       accum.append(city['connections'])
-    print('flat accumulator', flatten(accum))
     return list(set(flatten(accum)))
-
 
   def build(city, cities):
     city_copy = deepcopy(city)

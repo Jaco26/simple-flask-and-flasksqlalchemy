@@ -25,7 +25,7 @@ def create_app():
   from .resources.games import GamesList, GameById
   from .resources.join_game import JoinGame
   from .resources.choose_role import ChooseRole
-  from .resources.game_instance import GameCitiesList
+  from .resources.game_instance import GameCitiesList, CityById
 
   api.add_resource(PlayerList, '/api/players')
   api.add_resource(PlayerById, '/api/player/<int:_id>')
@@ -36,6 +36,7 @@ def create_app():
   api.add_resource(ChooseRole, '/api/game/<int:_id>/role')
 
   api.add_resource(GameCitiesList, '/api/game/<int:_id>/resources/cities')
+  api.add_resource(CityById, '/api/game/<int:_id>/resources/city/<int:city_id>')
 
   db.init_app(app)
 

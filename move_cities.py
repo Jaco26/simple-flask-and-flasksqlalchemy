@@ -44,10 +44,9 @@ def main():
     cities = [c.json() for c in OldCities.query.all()]
     for city in cities:
       c = connect_cities(city, cities)
-      pprint(c)
-      # new_city = Cities(**c)
-      # new_city.save_to_db()
-      # new_city.save_to_db()
+      new_city = Cities(**c)
+      if not Cities.query.filter_by(name=new_city.name).first():
+        new_city.save_to_db()
 
 if __name__ == '__main__':
   main()
