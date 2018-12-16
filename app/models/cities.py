@@ -10,7 +10,7 @@ class Cities(db.Model):
   x_rat = db.Column(db.Float(precision=2)) # used to position "city dot" on html5 canvas
   y_rat = db.Column(db.Float(precision=2)) # used to position "city dot" on html5 canvas
   color = db.Column(db.String)
-  connections = db.Column(db.JSON())
+  connections = db.Column(db.JSON)
 
   def json(self):
     return {

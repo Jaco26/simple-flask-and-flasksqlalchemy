@@ -1,5 +1,6 @@
+from flask import request
 from flask_restful import Resource, reqparse
-from app.models import PlayerCardDeck, InfectionCardDeck, Cities, Game
+from app.models import PlayerCardDeck, InfectionCard, Cities, Game
 
 def msg(message):
   return { 'message': message }
@@ -16,6 +17,7 @@ class GameCitiesList(Resource):
 class CityById(Resource):
   def get(self, _id, city_id):
     try:
+      print(request.args)
       city = Cities.find_by_id(city_id)
       return { 'city': city.simple_json() }
     except:

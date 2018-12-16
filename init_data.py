@@ -3,6 +3,7 @@ from app.db import db
 from app import create_app
 from app.calculations.find_city_connections import connect_cities
 from app.models.cities import Cities
+from app.models.infection_deck import InfectionCard
 
 
 class OldCities(db.Model):
@@ -38,15 +39,27 @@ class OldCities(db.Model):
     }
 
 
+
+def move_cities():
+  cities = [c.json() for c in OldCities.query.all()]
+  for city in cities:
+    c = connect_cities(city, cities)
+    new_city = Cities(**c)
+    if not Cities.query.filter_by(name=new_city.name).first():
+      new_city.save_to_db()
+
+def add_infection_cards():
+  card_names = [c.name for c in Cities.query.all()]
+  for name in card_names:
+    if not InfectionCard.query.filter_by(name=name):
+      card = InfectionCard(name=name)
+      card.save_to_db()
+
 def main():
   app = create_app()
   with app.app_context():
-    cities = [c.json() for c in OldCities.query.all()]
-    for city in cities:
-      c = connect_cities(city, cities)
-      new_city = Cities(**c)
-      if not Cities.query.filter_by(name=new_city.name).first():
-        new_city.save_to_db()
+    # move_cities()
+    # add_infection_cards()
 
 if __name__ == '__main__':
   main()
