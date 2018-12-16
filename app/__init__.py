@@ -8,6 +8,7 @@ from .resources.games import GamesList, GameById
 from .resources.join_game import JoinGame
 from .resources.choose_role import ChooseRole
 from .resources.game_instance import GameCitiesList, CityById
+from .resources.game_infection_deck import GameInfectionDeckResource
 
 def create_app():
   app = Flask(__name__, instance_relative_config=True)
@@ -37,6 +38,7 @@ def create_app():
 
   api.add_resource(GameCitiesList, '/api/game/<int:_id>/cities')
   api.add_resource(CityById, '/api/game/<int:_id>/city/<int:city_id>')
+  api.add_resource(GameInfectionDeckResource, '/api/game/<int:_id>/infection-deck')
 
   db.init_app(app)
 

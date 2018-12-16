@@ -59,7 +59,6 @@ def write_oldcities_data_to_json_file():
   import json
   cities = [c.json() for c in OldCities.query.all()]
   with open('old_cities_data.json', 'w') as outfile:
-
     json.dump(cities, outfile, ensure_ascii=False, indent=2)
 
 def main():
@@ -67,7 +66,7 @@ def main():
   with app.app_context():
     # move_cities()
     # add_infection_cards()
-    write_oldcities_data_to_json_file()
+    # write_oldcities_data_to_json_file()
 
 if __name__ == '__main__':
   main()
