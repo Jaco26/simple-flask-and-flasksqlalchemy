@@ -1,5 +1,13 @@
 from flask import Flask
 from flask_restful import Api
+from .db import db, init_db_command, init_db_data
+from .models import *
+from .resources.player import PlayerList, PlayerById
+from .resources.roles import RolesList
+from .resources.games import GamesList, GameById
+from .resources.join_game import JoinGame
+from .resources.choose_role import ChooseRole
+from .resources.game_instance import GameCitiesList, CityById
 
 def create_app():
   app = Flask(__name__, instance_relative_config=True)
@@ -18,14 +26,6 @@ def create_app():
       Welcome to the API!
     </h1>
     """
-
-  from .db import db, init_db_command, init_db_data
-  from .resources.player import PlayerList, PlayerById
-  from .resources.roles import RolesList
-  from .resources.games import GamesList, GameById
-  from .resources.join_game import JoinGame
-  from .resources.choose_role import ChooseRole
-  from .resources.game_instance import GameCitiesList, CityById
 
   api.add_resource(PlayerList, '/api/players')
   api.add_resource(PlayerById, '/api/player/<int:_id>')
