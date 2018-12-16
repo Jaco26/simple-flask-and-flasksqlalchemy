@@ -5,7 +5,7 @@ from app.models.infection_deck import InfectionCard
 from app.models.game_instance import GameInfectionDeck
 from app.models.game import Game
 
-class GameInfectionDeckResource(Resource):
+class ChangeGameInfectionDeck(Resource):
   parser = reqparse.RequestParser()
   parser.add_argument('cards_in_deck', type=list)
   parser.add_argument('cards_discarded', type=list)
@@ -20,8 +20,5 @@ class GameInfectionDeckResource(Resource):
       game_infection_deck.save_to_db()
       return 'added', 201
     
-
-      
-
 
 
