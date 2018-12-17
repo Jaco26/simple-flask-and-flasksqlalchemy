@@ -21,7 +21,7 @@ class Player(db.Model):
   def find_by_name(cls, name):
     return cls.query.filter_by(name=name).first()
 
-  def save(self):
+  def save_to_db(self):
     db.session.add(self)
     db.session.commit()
 
@@ -61,7 +61,7 @@ class PlayerInstance(db.Model):
     print(and_)
     return cls.query.filter(and_(cls.player_id == player_id, cls.game_id == game_id)).first()
 
-  def save(self):
+  def save_to_db(self):
     db.session.add(self)
     db.session.commit()
 

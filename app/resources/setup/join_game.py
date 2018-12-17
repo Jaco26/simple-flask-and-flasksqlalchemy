@@ -21,7 +21,7 @@ class JoinGame(Resource):
       player_instance = PlayerInstance(player_id=data['player_id'], game_id=_id)
       player_instance.game = game
       player_instance.player = player
-      player_instance.save()
+      player_instance.save_to_db()
       return msg('Player {} joined game {}'.format(data['player_id'], _id)), 201
     except:
       return msg('Player game join error'), 500

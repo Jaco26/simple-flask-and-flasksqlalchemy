@@ -19,7 +19,7 @@ class ChooseRole(Resource):
       if player_instance and role:
         player_instance.role_id = role_id
         player_instance.role = role
-        player_instance.save()
+        player_instance.save_to_db()
         return msg('Player {} successfully chose adopted role {} for game {}.'.format(player_id, role_id, _id)), 201
       return msg('Could not find player_instance or role'), 404
     except:

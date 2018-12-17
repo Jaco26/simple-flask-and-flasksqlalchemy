@@ -20,7 +20,7 @@ class PlayerList(Resource):
       if Player.query.filter_by(name=data['name']).first():
         return msg('Player {} already exists!'.format(data['name'])), 400
       player = Player(**data)
-      player.save()
+      player.save_to_db()
       return msg('Player was saved!'), 201
     except:
       return msg('There was an error saving the player'), 500
@@ -45,7 +45,7 @@ class PlayerById(Resource):
       player = Player.find_by_id(_id)
       if player:
         player.name = data['name']
-        player.save()
+        player.save_to_db()
         return player.json(), 201
       else:
         return msg('Player {} does not exist'.format(_id)), 400

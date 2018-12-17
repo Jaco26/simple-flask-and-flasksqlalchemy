@@ -24,7 +24,7 @@ class GamesList(Resource):
       if Game.find_by_name(data['name']):
         return msg('A game called "{}" already exists'.format(data['name'])), 400
       game = Game(**data)
-      game.save()
+      game.save_to_db()
       return msg('Game created!'), 201
     except:
       return msg('There was an error creating your game')
