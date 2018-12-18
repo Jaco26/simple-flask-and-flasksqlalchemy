@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask_restful import Resource, reqparse
-from app.models import Game
+from app.models import Game,
 
 
 class StartGame(Resource):
@@ -9,3 +9,11 @@ class StartGame(Resource):
     game.date_started = datetime.utcnow()
     game.save_to_db()
 
+
+class InitGameInfectionDeck(Resource):
+  pass
+
+
+
+class InitGamePlayerDeck(Resource):
+  pass
