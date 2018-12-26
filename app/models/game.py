@@ -11,11 +11,12 @@ class Game(db.Model):
   date_finished = db.Column(db.DateTime)
 
   game_players = db.relationship('PlayerInstance', cascade='delete', backref='game')
-  game_cities = db.relationship('GameCities', cascade='delete')
-  game_infection_deck = db.relationship('GameInfectionDeck', cascade='delete', lazy='dynamic')
-  game_player_deck = db.relationship('GamePlayerDeck', cascade='delete', lazy='dynamic')
+  # game_cities = db.relationship('GameCities', cascade='delete')
+  # game_infection_deck = db.relationship('GameInfectionDeck', cascade='delete', lazy='dynamic')
+  # game_player_deck = db.relationship('GamePlayerDeck', cascade='delete', lazy='dynamic')
 
   def json(self, *args):
+    print("in game json")
     return {
       'id': self.id,
       'name': self.name,
@@ -24,7 +25,7 @@ class Game(db.Model):
       'date_started': datetime.isoformat(self.date_started) if self.date_started else None,
       'date_finished': datetime.isoformat(self.date_finished) if self.date_started else None,
       'game_players': [p.json('player', 'role') for p in self.game_players] if 'game_players' in args else None,
-      'game_cities': [c.json() for c in self.game_cities]
+      # 'game_cities': [c.json() for c in self.game_cities]
     }
 
   @classmethod

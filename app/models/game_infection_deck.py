@@ -7,10 +7,10 @@ class GameInfectionDeck(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   game_id = db.Column(db.Integer, db.ForeignKey('game_info.id'))
   
-  reshuffled_on_top = db.Column(db.ARRAY, dimensions=2)
-  current_discard_pile = db.Column(db.ARRAY)
-  cards_removed_from_deck = db.Column(db.ARRAY)
-  ts = db.Column(db.Datetime, default=datetime.utcnow)
+  reshuffled_on_top = db.Column(db.ARRAY(db.Integer))
+  current_discard_pile = db.Column(db.ARRAY(db.Integer))
+  cards_removed_from_deck = db.Column(db.ARRAY(db.Integer))
+  ts = db.Column(db.DateTime, default=datetime.utcnow)
   cards = db.relationship('InfectionCard', lazy='joined')
 
   def json(self):
