@@ -19,9 +19,14 @@ class GameInfectionDeck(db.Model):
       'reshuffled_on_top': self.reshuffled_on_top,
       'current_discard_pile': self.current_discard_pile,
       'cards_removed_from_deck': self.cards_removed_from_deck,
-      'ts': self.ts,
-      'cards': [card.id for card in self.cards]
+      'ts': datetime.isoformat(self.ts),
+      # 'cards': [card.id for card in self.cards]
     }
+
+  @classmethod
+  def find_by_id(cls, _id):
+    return cls.query.filter_by(id=_id).first()
+
 
   
 

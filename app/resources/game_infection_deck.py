@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource, reqparse
 
 from app.models.infection_deck import InfectionCard
-from app.models.game_instance import GameInfectionDeck
+# from app.models.game_instance import GameInfectionDeck
 from app.models.game import Game
 
 class ChangeGameInfectionDeck(Resource):

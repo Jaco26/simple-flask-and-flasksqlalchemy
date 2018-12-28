@@ -25,6 +25,7 @@ class Game(db.Model):
       'date_started': datetime.isoformat(self.date_started) if self.date_started else None,
       'date_finished': datetime.isoformat(self.date_finished) if self.date_started else None,
       'game_players': [p.json('player', 'role') for p in self.game_players] if 'game_players' in args else None,
+      # 'game_infection_deck': [c.json() for c in self.game_infection_deck.query.all()]
       # 'game_cities': [c.json() for c in self.game_cities]
     }
 

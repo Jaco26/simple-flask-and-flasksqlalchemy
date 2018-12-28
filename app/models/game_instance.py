@@ -13,8 +13,6 @@ class GamePlayerDeck(db.Model):
     db.session.commit()
 
 
-
-
 class GameCities(db.Model):
   __tablename__ = 'game_cities'
   id = db.Column(db.Integer, primary_key=True)
